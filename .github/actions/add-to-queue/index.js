@@ -14,11 +14,11 @@ async function run() {
 
     const octokit = github.getOctokit(gitHubToken);
 
-    await octokit.rest.checks.create({
+    const res = await octokit.rest.checks.create({
       owner: gitHubRepoOwner,
       repo: gitHubRepoName,
       name: 'Check Created by API',
-      head_sha: '150a7656ef1f544c0fcbf2bb016cdb812be9c727',
+      head_sha: '500ed116f5b7e1a987786a3cca9775ec96400263',
       status: 'completed',
       conclusion: 'success',
       output: {
@@ -26,6 +26,8 @@ async function run() {
         summary: `# All good ![step 1](https://commons.wikimedia.org/wiki/File:Flat_tick_icon.svg "Step 1")`,
       },
     });
+
+    console.log(res.data)
   } catch (error) {
     core.setFailed(error.message);
   }
