@@ -11,4 +11,11 @@ jobs:
         with:
           node-version: '14'
 
-      - run: echo "hello"
+      - uses: actions/checkout@v2
+
+      - run: yarn
+
+      - name: custom-action
+        uses: .github/actions/add-to-queue
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
