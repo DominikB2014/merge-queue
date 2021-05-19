@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github')
+const github = require('@actions/github');
 
 async function run() {
   try {
@@ -9,6 +9,8 @@ async function run() {
     ] = process.env.GITHUB_REPOSITORY.split('/');
     const gitHubSha = process.env.GITHUB_SHA;
     const gitHubToken = process.env.TOKEN;
+
+    console.log(gitHubSha);
 
     const octokit = github.getOctokit(gitHubToken);
 
