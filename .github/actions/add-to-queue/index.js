@@ -18,7 +18,7 @@ async function run() {
       owner: gitHubRepoOwner,
       repo: gitHubRepoName,
       name: 'Check Created by API',
-      head_sha: gitHubSha,
+      head_sha: '150a7656ef1f544c0fcbf2bb016cdb812be9c727',
       status: 'completed',
       conclusion: 'success',
       output: {
