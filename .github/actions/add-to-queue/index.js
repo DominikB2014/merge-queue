@@ -10,7 +10,7 @@ async function run() {
     const gitHubSha = process.env.GITHUB_SHA;
     const gitHubToken = process.env.TOKEN;
 
-    const octokit = new github.GitHub(gitHubToken);
+    const octokit = new github.getOctokit(gitHubToken);
 
     octokit.checks.create({
       owner: gitHubRepoOwner,
