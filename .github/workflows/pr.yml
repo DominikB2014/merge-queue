@@ -16,6 +16,6 @@ jobs:
       - run: yarn
 
       - name: custom-action
-        with: ./.github/actions/add-to-queue
+        uses: ./.github/actions/add-to-queue
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
