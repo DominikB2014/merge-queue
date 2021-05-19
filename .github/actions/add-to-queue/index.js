@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+const github = require('@actions/github')
 
 async function run() {
   try {
@@ -10,9 +10,9 @@ async function run() {
     const gitHubSha = process.env.GITHUB_SHA;
     const gitHubToken = process.env.TOKEN;
 
-    const octokit = new github.getOctokit(gitHubToken);
+    const octokit = github.getOctokit(gitHubToken);
 
-    octokit.checks.create({
+    octokit.rest.checks.create({
       owner: gitHubRepoOwner,
       repo: gitHubRepoName,
       name: 'Check Created by API',
