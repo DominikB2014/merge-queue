@@ -22,7 +22,7 @@ jobs:
   add-to-queue:
     runs-on: ubuntu-latest
     needs: check-comment
-    if: ${{ check-comment.outputs.shouldAddToQueue }}
+    if: ${{ needs.check-comment.outputs.shouldAddToQueue }}
     steps:
       - uses: actions/checkout@v2
 
