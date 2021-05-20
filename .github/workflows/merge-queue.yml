@@ -1,33 +1,29 @@
 name: Add to queue
 
 on:
-  pull_request:
+  pull_request_review_comment:
     types:
-      - labeled
-      - unlabeled
-      - synchronize
-      - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
-  pull_request_review:
-    types:
-      - submitted
-  check_suite:
-    types:
-      - completed
-  status: {}
+      - created
 
 jobs:
+  check-comment:
+    runs-on: ubuntu-latest
+    outputs:
+      shouldAddToQueue: ${{ steps.fc.outputs.comment-id }}
+    steps:
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{github.event.number}}
+          body-includes: /mergeit
+          direction: last
+
   add-to-queue:
     runs-on: ubuntu-latest
+    needs: check-comment
+    if: ${{ check-comment.outputs.shouldAddToQueue }}
     steps:
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
       - uses: actions/checkout@v2
 
       - run: yarn
