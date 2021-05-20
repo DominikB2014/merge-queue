@@ -27,6 +27,9 @@
   },
   "private": true,
   "dependencies": {
+    "@actions/core": "^1.2.7",
+    "@actions/github": "^5.0.0",
+    "aws-sdk": "^2.910.0",
     "express": "4.17.1",
     "tslib": "^2.0.0"
   },

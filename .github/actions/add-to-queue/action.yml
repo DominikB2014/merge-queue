@@ -1,0 +1,5 @@
+name: "Create Status Check"
+description: "Create a status check with the API"
+runs:
+  using: "node12"
+  main: "index.js"
