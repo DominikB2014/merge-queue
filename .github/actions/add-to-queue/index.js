@@ -17,6 +17,7 @@ async function run() {
     console.log(gitHubSha);
 
     const octokit = github.getOctokit(gitHubToken);
+    octokit.rest.status
 
     // const affectedApps = execSync('yarn nx affected:apps');
     const affectedApps = ['my-app1', 'my-app2'];
