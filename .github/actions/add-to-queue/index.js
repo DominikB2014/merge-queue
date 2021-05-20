@@ -26,7 +26,8 @@ async function run() {
         QueueUrl:
           'https://sqs.us-east-1.amazonaws.com/425145600464/merge-queue.fifo',
         MessageBody: JSON.stringify({ pr: PRID, affectedApps }),
-        MessageGroupId: 'queue'
+        MessageGroupId: 'queue',
+        MessageDeduplicationId: PRID,
       })
       .promise();
     console.log(status);
