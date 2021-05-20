@@ -55,11 +55,7 @@ const verifyPr = async () => {
   console.log(pr.data.head.sha);
   console.log(pr.data.mergeable);
   console.log(pr.data.mergeable_state);
-  if (
-    !pr.data.mergeable ||
-    pr.data.mergeable_state !== 'clean' ||
-    pr.data.state === 'closed'
-  ) {
+  if (!pr.data.mergeable || pr.data.state === 'closed') {
     return false;
   }
 
@@ -68,6 +64,7 @@ const verifyPr = async () => {
     repo: 'merge-queue',
     ref: pr.data.head.sha,
   });
+  console.log(prStatus.data.check_suites);
 
   for (const checkSuite of prStatus.data.check_suites) {
     if (checkSuite.conclusion !== 'success') {
