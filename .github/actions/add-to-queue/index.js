@@ -1,5 +1,9 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const AWS = require('aws-sdk');
+const { execSync } = require('child_process');
+
+const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 
 async function run() {
   try {
@@ -27,7 +31,14 @@ async function run() {
       },
     });
 
-    console.log(res.data)
+    const affectedApps = execSync('yarn nx affected:apps');
+
+    sqs.sendMessage({
+      QueueUrl:
+        'https://sqs.us-east-1.amazonaws.com/425145600464/merge-queue.fifo',
+      MessageBody: JSON.stringify({ affectedApps }),
+    });
+    console.log(res.data);
   } catch (error) {
     core.setFailed(error.message);
   }
