@@ -19,6 +19,7 @@ const octokit = new Octokit({ auth: process.env.TOKEN });
 const app = express();
 let frontOfQueue: AWS.SQS.Message = undefined;
 
+
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to my-app!' });
 });
