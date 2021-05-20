@@ -67,7 +67,7 @@ const checksPassHandler = async () => {
 };
 
 setInterval(async () => {
-  if (frontOfQueue) {
+  if (!frontOfQueue) {
     console.log('Checking for messages');
     const messages = await sqs
       .receiveMessage({
