@@ -7,7 +7,6 @@ import * as express from 'express';
 import { Octokit } from '@octokit/rest';
 import * as AWS from 'aws-sdk';
 import { readFileSync } from 'fs';
-import { App } from '@octokit/app';
 
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05', region: 'us-east-1' });
 const pem = readFileSync(
@@ -98,7 +97,6 @@ const verifyPr = async () => {
   console.log(pr.data.mergeable_state);
   if (
     !pr.data.mergeable ||
-    pr.data.mergeable_state !== 'clean' ||
     pr.data.state === 'closed'
   ) {
     return false;
@@ -128,6 +126,7 @@ const completeMessage = async () => {
     .promise();
   frontOfQueue = undefined;
 };
+
 setInterval(async () => {
   if (!frontOfQueue) {
     console.log('Checking for messages');
