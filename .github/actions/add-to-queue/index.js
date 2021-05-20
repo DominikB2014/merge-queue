@@ -9,7 +9,7 @@ const octokit = github.getOctokit(gitHubToken);
 
 async function run() {
   try {
-    // const affectedApps = execSync('yarn nx affected:apps');
+    // const affectedApps = execSync('yarn nx affected:apps'); 
     const affectedApps = ['my-app1', 'my-app2'];
 
     const isPrReady = await verifyPr();
