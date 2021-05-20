@@ -18,28 +18,17 @@ async function run() {
 
     const octokit = github.getOctokit(gitHubToken);
 
-    const res = await octokit.rest.checks.create({
-      owner: gitHubRepoOwner,
-      repo: gitHubRepoName,
-      name: 'Check Created by API',
-      head_sha: '500ed116f5b7e1a987786a3cca9775ec96400263',
-      status: 'completed',
-      conclusion: 'success',
-      output: {
-        title: 'Check Created by API',
-        summary: `# All good ![step 1](https://commons.wikimedia.org/wiki/File:Flat_tick_icon.svg "Step 1")`,
-      },
-    });
-
     // const affectedApps = execSync('yarn nx affected:apps');
     const affectedApps = ['my-app1', 'my-app2'];
 
-    sqs.sendMessage({
-      QueueUrl:
-        'https://sqs.us-east-1.amazonaws.com/425145600464/merge-queue.fifo',
-      MessageBody: JSON.stringify({ pr: PRID, affectedApps }),
-    });
-    console.log(res.data);
+    const status = await sqs
+      .sendMessage({
+        QueueUrl:
+          'https://sqs.us-east-1.amazonaws.com/425145600464/merge-queue.fifo',
+        MessageBody: JSON.stringify({ pr: PRID, affectedApps }),
+      })
+      .promise();
+    console.log(status);
   } catch (error) {
     core.setFailed(error.message);
   }
