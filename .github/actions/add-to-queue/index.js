@@ -58,7 +58,6 @@ const verifyPr = async () => {
   console.log(pr.data.mergeable_state);
   if (
     !pr.data.mergeable ||
-    pr.data.mergeable_state !== 'clean' ||
     pr.data.state === 'closed'
   ) {
     return false;
