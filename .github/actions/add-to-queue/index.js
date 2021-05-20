@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const AWS = require('aws-sdk');
 const PRID = process.env.PRID;
-const gitHubToken = process.env.PRID;
+const gitHubToken = process.env.TOKEN;
 
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 const octokit = github.getOctokit(gitHubToken);
