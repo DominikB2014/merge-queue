@@ -7,6 +7,7 @@ const gitHubToken = process.env.TOKEN;
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 const octokit = github.getOctokit(gitHubToken);
 
+
 async function run() {
   try {
     // const affectedApps = execSync('yarn nx affected:apps');
