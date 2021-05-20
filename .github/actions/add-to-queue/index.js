@@ -59,18 +59,18 @@ const verifyPr = async () => {
     return false;
   }
 
-  const prStatus = await octokit.rest.checks.listSuitesForRef({
-    owner: 'DominikB2014',
-    repo: 'merge-queue',
-    ref: pr.data.head.sha,
-  });
-  console.log(prStatus.data.check_suites);
+  // const prStatus = await octokit.rest.checks.listSuitesForRef({
+  //   owner: 'DominikB2014',
+  //   repo: 'merge-queue',
+  //   ref: pr.data.head.sha,
+  // });
+  // console.log(prStatus.data.check_suites);
 
-  for (const checkSuite of prStatus.data.check_suites) {
-    if (checkSuite.conclusion !== 'success') {
-      return false;
-    }
-  }
+  // for (const checkSuite of prStatus.data.check_suites) {
+  //   if (checkSuite.conclusion !== 'success') {
+  //     return false;
+  //   }
+  // }
 
   return true;
 };
