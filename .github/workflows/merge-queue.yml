@@ -8,6 +8,7 @@ on:
 jobs:
   check-comment:
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }}
     outputs:
       shouldAddToQueue: ${{ steps.fc.outputs.comment-id }}
     steps:
