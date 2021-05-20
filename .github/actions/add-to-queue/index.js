@@ -11,6 +11,10 @@ async function run() {
     // const affectedApps = execSync('yarn nx affected:apps');
     const affectedApps = ['my-app1', 'my-app2'];
 
+    const isPrReady = await verifyPr();
+    if (!isPrReady) {
+      throw 'error';
+    }
     const status = await sqs
       .sendMessage({
         QueueUrl:
@@ -56,4 +60,6 @@ const verifyPr = async () => {
   }
 };
 
-run();
+run().catch((e) => {
+  throw e;
+});

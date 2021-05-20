@@ -32,6 +32,13 @@ jobs:
 
       - run: yarn
 
+      - name: Configure credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_SECRET_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
       - name: custom-action
         uses: ./.github/actions/add-to-queue
         env:
