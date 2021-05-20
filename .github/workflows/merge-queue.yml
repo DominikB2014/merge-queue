@@ -1,13 +1,15 @@
 name: Add to queue
 
-on:
-  pull_request_review_comment:
-    types:
-      - created
+on: 
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
 
 jobs:
   check-comment:
     runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }}
     outputs:
       shouldAddToQueue: ${{ steps.fc.outputs.comment-id }}
     steps:
@@ -15,7 +17,7 @@ jobs:
         uses: peter-evans/find-comment@v1
         id: fc
         with:
-          issue-number: ${{github.event.number}}
+          issue-number: ${{github.event.issue.number}}
           body-includes: /mergeit
           direction: last
 
@@ -39,4 +41,4 @@ jobs:
         uses: ./.github/actions/add-to-queue
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PRID: ${{github.event.number}}
+          PRID: ${{github.event.issue.number}}
