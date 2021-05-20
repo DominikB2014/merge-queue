@@ -4,21 +4,10 @@ const AWS = require('aws-sdk');
 const PRID = process.env.PRID;
 
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
+const octokit = github.getOctokit(gitHubToken);
 
 async function run() {
   try {
-    const [
-      gitHubRepoOwner,
-      gitHubRepoName,
-    ] = process.env.GITHUB_REPOSITORY.split('/');
-    const gitHubSha = process.env.GITHUB_SHA;
-    const gitHubToken = process.env.TOKEN;
-
-    console.log(gitHubSha);
-
-    const octokit = github.getOctokit(gitHubToken);
-    octokit.rest.status
-
     // const affectedApps = execSync('yarn nx affected:apps');
     const affectedApps = ['my-app1', 'my-app2'];
 
@@ -36,5 +25,35 @@ async function run() {
     core.setFailed(error.message);
   }
 }
+
+const verifyPr = async () => {
+  const pr = await octokit.rest.pulls.get({
+    owner: 'DominikB2014',
+    repo: 'merge-queue',
+    pull_number: PRID,
+  });
+  console.log(pr.data.head.sha);
+  console.log(pr.data.mergeable);
+  console.log(pr.data.mergeable_state);
+  if (
+    !pr.data.mergeable ||
+    pr.data.mergeable_state !== 'clean' ||
+    pr.data.state === 'closed'
+  ) {
+    return false;
+  }
+
+  const prStatus = await octokit.rest.checks.listSuitesForRef({
+    owner: 'DominikB2014',
+    repo: 'merge-queue',
+    ref: pr.data.head.sha,
+  });
+
+  for (const checkSuite of prStatus.data.check_suites) {
+    if (checkSuite.conclusion !== 'success') {
+      return false;
+    }
+  }
+};
 
 run();

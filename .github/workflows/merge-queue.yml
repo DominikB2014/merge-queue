@@ -1,15 +1,39 @@
 name: Add to queue
 
 on:
-  check_suite:
+  pull_request:
     types:
-      - completed
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
   pull_request_review:
     types:
       - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 
 jobs:
   add-to-queue:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Added to queue"
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - uses: actions/checkout@v2
+
+      - run: yarn
+
+      - name: custom-action
+        uses: ./.github/actions/add-to-queue
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRID: ${{github.event.number}}
