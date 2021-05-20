@@ -16,11 +16,16 @@ async function run() {
     if (!isPrReady) {
       throw 'error';
     }
+    const prData = await getPrData();
     const status = await sqs
       .sendMessage({
         QueueUrl:
           'https://sqs.us-east-1.amazonaws.com/425145600464/merge-queue.fifo',
-        MessageBody: JSON.stringify({ pr: PRID, affectedApps }),
+        MessageBody: JSON.stringify({
+          pr: PRID,
+          sha: prData.head.sha,
+          affectedApps,
+        }),
         MessageGroupId: 'queue',
         MessageDeduplicationId: PRID,
       })
@@ -30,6 +35,16 @@ async function run() {
     core.setFailed(error.message);
   }
 }
+
+const getPrData = async () => {
+  const pr = await octokit.rest.pulls.get({
+    owner: 'DominikB2014',
+    repo: 'merge-queue',
+    pull_number: PRID,
+  });
+
+  return pr.data;
+};
 
 const verifyPr = async () => {
   const pr = await octokit.rest.pulls.get({
@@ -59,6 +74,8 @@ const verifyPr = async () => {
       return false;
     }
   }
+
+  return true;
 };
 
 run().catch((e) => {
