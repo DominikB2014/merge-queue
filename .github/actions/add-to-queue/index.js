@@ -7,7 +7,6 @@ const gitHubToken = process.env.TOKEN;
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 const octokit = github.getOctokit(gitHubToken);
 
-
 async function run() {
   try {
     // const affectedApps = execSync('yarn nx affected:apps');
@@ -56,10 +55,7 @@ const verifyPr = async () => {
   console.log(pr.data.head.sha);
   console.log(pr.data.mergeable);
   console.log(pr.data.mergeable_state);
-  if (
-    !pr.data.mergeable ||
-    pr.data.state === 'closed'
-  ) {
+  if (!pr.data.mergeable || pr.data.state === 'closed') {
     return false;
   }
 
@@ -68,6 +64,7 @@ const verifyPr = async () => {
     repo: 'merge-queue',
     ref: pr.data.head.sha,
   });
+  console.log(prStatus.data.check_suites);
 
   for (const checkSuite of prStatus.data.check_suites) {
     if (checkSuite.conclusion !== 'success') {
