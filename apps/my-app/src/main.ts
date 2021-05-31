@@ -1,37 +1,49 @@
 import * as serverless from 'serverless-http';
 import probotApp from './app/app';
-import { Probot, Server } from 'probot';
+import { Probot, Server, createNodeMiddleware, createProbot } from 'probot';
 import { environment } from './environments/environment';
 import { readFileSync } from 'fs';
-import { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from 'aws-lambda';
+import * as express from 'express';
 
-export const server = new Server({
-  Probot: Probot.defaults({
-    appId: process.env.APP_ID,
-    privateKey: readFileSync(
-      `${__dirname}/assets/test-merge-queue.2021-05-19.private-key.pem`
-    ).toString(),
-    secret: process.env.WEBHOOK_SECRET,
-  }),
-});
+const app = express();
 
-const startServerLocal = async () => {
-  await server.load(probotApp);
-  server.start();
-};
+app.use((req, res, next) => {
+  if (req.body.toString()) {
+    req.body = req.body.toString();
+  }
+  next();
+})
+
+app.use(createNodeMiddleware(probotApp, {
+  probot: createProbot({
+    overrides: {
+      appId: process.env.APP_ID,
+      privateKey: readFileSync(
+        `${__dirname}/assets/test-merge-queue.2021-05-19.private-key.pem`
+      ).toString(),
+      secret: process.env.WEBHOOK_SECRET,
+    }
+  })
+}))
+
+app.get('/hello-world', (req, res) => {
+  res.send('hello world')
+})
 
 if (!environment.production) {
-  startServerLocal();
+  app.listen(3000, () => {
+    console.log('app started on 3000');
+  })
 }
 
-const serverlessApp = serverless(server.expressApp);
+const serverlessApp = serverless(app);
 
 export const handler = async (
   event: APIGatewayProxyEvent | APIGatewayProxyEventV2,
-  context
+  context: Context
 ) => {
-  await server.load(probotApp);
 
   const result = await serverlessApp(event, context);
   return result;
-};
+}

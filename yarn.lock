@@ -990,15 +990,6 @@
     "@octokit/webhooks-types" "3.75.1"
     aggregate-error "^3.1.0"
 
-"@probot/adapter-aws-lambda-serverless@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@probot/adapter-aws-lambda-serverless/-/adapter-aws-lambda-serverless-2.0.1.tgz#5f9f1407f56a60909b7b034f5f88a150abcc2026"
-  integrity sha512-4Ho4M91h4lnu5AjI+xy9ABgeN1/HaaO40qQ6i8DGXJLoI0KsdkqoCyTd6Axu81ingA8nuTlBp8+p69KBECOrag==
-  dependencies:
-    "@probot/get-private-key" "^1.1.0"
-    lowercase-keys "^2.0.0"
-    probot "^11.0.6"
-
 "@probot/get-private-key@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@probot/get-private-key/-/get-private-key-1.1.0.tgz#d29abe3d2b5130701234dc23d0cd2f220f55bbc1"
@@ -2721,7 +2712,7 @@ bn.js@^5.0.0, bn.js@^5.1.1:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.2.0.tgz#358860674396c6997771a9d051fcc1b57d4ae002"
   integrity sha512-D7iWRBvnZE8ecXiLj/9wbxH7Tk79fAh8IHaTNq1RWRixsS02W+5qS+iE9yq6RYl0asXx5tw0bLhmT5pIfbSquw==
 
-body-parser@1.19.0:
+body-parser@1.19.0, body-parser@^1.19.0:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a"
   integrity sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw==
@@ -8384,7 +8375,7 @@ printj@~1.1.0:
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
-probot@^11.0.6, probot@^11.3.0:
+probot@^11.3.0:
   version "11.3.0"
   resolved "https://registry.yarnpkg.com/probot/-/probot-11.3.0.tgz#f48bc3b07b96d104dba076976e581db3806c9216"
   integrity sha512-Af+CJJ9MR982HnMRThzOUnp9QKKjxmpkzi5y0mHeAE6Rk7PXwuFcfIZlT1+L5CjLYkEhcTJhucrgzGW4QUJ8Pw==
