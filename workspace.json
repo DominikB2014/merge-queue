@@ -10,14 +10,25 @@
       "sourceRoot": "apps/my-app/src",
       "projectType": "application",
       "targets": {
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx run my-app:build:production", "cd dist/apps/serverless.yml && npx sls deploy"],
+            "parallel": false
+          }
+        },
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/my-app",
             "main": "apps/my-app/src/main.ts",
+            "externalDependencies": "none",
             "tsConfig": "apps/my-app/tsconfig.app.json",
-            "assets": ["apps/my-app/src/assets"]
+            "assets": [
+              "apps/my-app/src/assets",
+              "apps/my-app/src/serverless.yml"
+            ]
           },
           "configurations": {
             "production": {
