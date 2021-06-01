@@ -25,6 +25,7 @@
             "main": "apps/my-app/src/main.ts",
             "externalDependencies": "none",
             "tsConfig": "apps/my-app/tsconfig.app.json",
+            "webpackConfig": ["apps/my-app/webpack.conf.js"],
             "assets": [
               "apps/my-app/src/assets",
               "apps/my-app/src/serverless.yml"
@@ -47,7 +48,8 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "my-app:build"
+            "buildTarget": "my-app:build",
+            "inspect": true
           }
         },
         "lint": {

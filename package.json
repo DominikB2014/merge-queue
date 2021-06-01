@@ -33,7 +33,7 @@
     "@octokit/rest": "^18.5.3",
     "aws-sdk": "^2.910.0",
     "express": "4.17.1",
-    "probot": "^11.3.0",
+    "probot": "^11.3.2",
     "serverless": "^2.43.1",
     "serverless-http": "^2.7.0",
     "tslib": "^2.0.0"
