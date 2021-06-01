@@ -10,29 +10,29 @@ const probot: ApplicationFunction = (app: Probot) => {
 
   const handleTopOfQueue = () => {
     // Verify the label is there, update branch, set status to in progress
-  }
+  };
 
   app.on('pull_request.labeled', async (context) => {
     // Check if label is `merge-to-queue` add to table
     // if at top, update branch with latest trunk, set the status to in progress
     // Else do nothing
-
     // Comment that pr is in queue
-  })
+  });
 
   app.on('pull_request.unlabeled', async (context) => {
     // Delete from dynamo
-  })
+  });
 
   app.on('workflow_run.completed', async (context) => {
     // Check if pr is at top, check if branch is up to date, check if label is there, tests pass, reviewed
     // Merge, pop off queue, process next item in queue
 
     // Comment that pr is at the top queue
-    context.octokit.pulls.merge({
-      merge_method: 'squash',
-      commit_message: ''
-  })
+    // context.octokit.pulls.merge({
+    //   merge_method: 'squash',
+    //   commit_message: '',
+    // });
+  });
 
   app.on('issues.opened', async (context) => {
     console.log('issue opened!');
@@ -46,8 +46,6 @@ const probot: ApplicationFunction = (app: Probot) => {
 };
 
 export default probot;
-
-
 
 interface DynamoDBPr {
   id: string;
