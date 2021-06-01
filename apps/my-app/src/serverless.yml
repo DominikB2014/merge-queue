@@ -8,6 +8,10 @@ app: probot
 frameworkVersion: '2'
 useDotenv: true
 
+custom:
+  constants:
+    DynamoPullRequestTable: pull-request-table
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -15,9 +19,30 @@ provider:
   environment:
     APP_ID: ${env:APP_ID}
     WEBHOOK_SECRET: ${env:WEBHOOK_SECRET}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+      Resource: 'arn:aws:dynamodb:us-east-1:*:table/${self:custom.constants.DynamoPullRequestTable}'
 
 functions:
   webhooks:
     handler: main.handler
     events:
       - httpApi: '*'
+
+resources:
+  PullRequestTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.constants.DynamoPullRequestTable}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH

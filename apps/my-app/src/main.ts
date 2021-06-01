@@ -1,24 +1,6 @@
-// global.atob = require('atob');
-// import * as webcrypto from 'webcrypto-core';
-// import * as crypto from 'crypto';
-// class Crypto {
-//   subtle;
-  
-//   constructor() {
-//     this.subtle = new webcrypto.SubtleCrypto();
-//   }
-  
-//   getRandomValues(array) {
-//     const buffer = Buffer.from(array.buffer);
-//     crypto.randomFillSync(buffer);
-//     return array;
-//   }
-  
-// }
-// global.crypto = new Crypto();
 import * as serverless from 'serverless-http';
 import probotApp from './app/app';
-import { Probot, Server, createNodeMiddleware, createProbot } from 'probot';
+import { Probot, createNodeMiddleware } from 'probot';
 import { environment } from './environments/environment';
 import { readFileSync } from 'fs';
 import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from 'aws-lambda';
@@ -44,7 +26,6 @@ app.use((req, res, next) => {
 app.use(createNodeMiddleware(probotApp, {
   probot
 }))
-
 
 app.get('/hello-world', (req, res) => {
   res.send('hello world')
